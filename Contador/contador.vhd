@@ -57,4 +57,4 @@ begin
     end process ;
     q(0) <= '1' when state = ACTIVE else '0';
     q(1) <= '1' when state = PAUSED else '0';
-end Cronometroarch ;
+end architecture Cronometroarch ;
