@@ -36,4 +36,4 @@ begin
         end if;
     end process;--Generador_.5Hz:
     q <= sq;
-end Contadorarch ;
+end architecture Contadorarch ;
