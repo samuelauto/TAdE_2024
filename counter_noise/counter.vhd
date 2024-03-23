@@ -49,34 +49,21 @@ architecture Behavioral of counter is
 
 begin
 
-	rst_proccess:process (i_rst,i_clk,i_data)		
+	count_proccess:process (i_clk)		
 		begin
          if (i_clk'event and i_clk = '1') then
-             if i_rst = '1' then
+            if (i_rst = '1') then
                 count <= (others => '0');
-             else 
-                count <= count;
              end if;
-         elsif (count = i_data) then
+            if (count = i_data) then
              end_count <= '1';
              count <= (others => '0');
-         else
-             count <= count;
+            end if
+            if (i_en = '1') then
+                count <= count + 1;
+            end if 
          end if;
       end process;
-		
-    count_process:process (i_clk,i_en)
-            begin
-                if (i_clk'event and i_clk = '1') then
-                    if (i_en = '1') then
-                        count <= count + 1;
-                    else
-                        count <= count;
-							end if;
-                else 
-                    count <= count;
-                end if;
-            end process;
             
     o_data <= count;
     o_end <= end_count;

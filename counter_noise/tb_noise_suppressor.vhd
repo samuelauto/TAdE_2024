@@ -68,11 +68,16 @@ ARCHITECTURE behavior OF tb_noise_suppressor IS
 BEGIN
  
 	-- Instantiate the Unit Under Test (UUT)
-   uut: noise_suppressor PORT MAP (
+   uut: noise_suppressor 
+      generic map(
+         g_nClkIgnore => 20
+      )
+      PORT MAP (
           i_clk => i_clk,
           i_rst => rst,
           i_data => i_data,
-          o_data => o_data
+          o_data => o_data,
+
         );
 
    -- Clock process definitions
@@ -97,18 +102,66 @@ BEGIN
 		
 		rst <= '1';
       wait for 3 * i_clk_period;
-		rst <= '0';
+      
+      if o_data = '1' then
+         report "ERROR: RST = 1";  --Informa que la señal se estabilizo en rst = 1
+		else
+         report "PASS: RST = 1";
+      end if
+      ---------------------------------------
+      rst <= '0';
 		wait for 2* i_clk_period;
+         
+      if o_data = '1' then
+         report "ERROR: RST = 0; 2*CLK_PERIOD";  --Informa que la señal se estabilizo en 2*clk_period con rst = 0
+		else
+         report "PASS: RST = 0; 2*CLK_PERIOD";
+      end if
+      -----------------------------------
 		i_data <= '1';
 		wait for 0.5 * i_clk_period;
+        
+      if o_data = '1' then
+         report "ERROR: I_DATA = 1; 0.5*CLK_PERIOD";  --Informa que la señal se estabilizo en 0.5*clk_period con i_data = 1
+		else
+         report "PASS: I_DATA = 1; 0.5*CLK_PERIOD";
+      end if
+      ----------------------------------
 		i_data <= '0';
 		wait for 1 * i_clk_period;
+
+      if o_data = '1' then
+         report "ERROR: I_DATA = 0; 1*CLK_PERIOD";  --Informa que la señal se estabilizo en 1*clk_period con i_data = 0
+		else
+         report "PASS: I_DATA = 0; 1*CLK_PERIOD";
+      end if
+      -----------------------------------   
 		i_data <= '1';
 		wait for 1.5* i_clk_period;
+      
+      if o_data = '1' then
+         report "ERROR: I_DATA = 1; 1.5*CLK_PERIOD";  --Informa que la señal se estabilizo en 1.5*clk_period con i_data = 1
+		else
+         report "PASS: I_DATA = 1; 1.5*CLK_PERIOD";
+      end if;
+      -------------------------------------
 		i_data <= '0';
 		wait for 3*i_clk_period;
-		i<data <= '1';
+
+      if o_data = '1' then
+         report "ERROR: I_DATA = 0; 3*CLK_PERIOD";  --Informa que la señal se estabilizo en 3*clk_period con i_data = 0
+		else
+         report "PASS: I_DATA = 0; 3*CLK_PERIOD";
+      end if;
+      --------------------------------------
+		i_data <= '1';
 		wait for 25*i_clk_period;
+
+      if o_data = '1' then
+         report "TEST_COMPLETE"; 
+      else 
+         report "ERROR: I_DATA = 1; 25*CLK_PERIOD";--Informa que la señal no se estabilizo en 25*clk_period con i_data = 1
+      end if;
 
       wait;
    end process;
