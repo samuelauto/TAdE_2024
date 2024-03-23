@@ -42,9 +42,8 @@ ARCHITECTURE behavior OF tb_noise_suppressor IS
     COMPONENT noise_suppressor
 	 
 	 generic(
-        g_nClkIgnore : integer := 20 
-    )
-	 
+        g_nClkIgnore : integer := 20
+    );
     PORT(
          i_clk : IN  std_logic;
          i_rst : IN  std_logic;
@@ -74,10 +73,9 @@ BEGIN
       )
       PORT MAP (
           i_clk => i_clk,
-          i_rst => rst,
+          i_rst => i_rst,
           i_data => i_data,
-          o_data => o_data,
-
+          o_data => o_data
         );
 
    -- Clock process definitions
@@ -100,23 +98,23 @@ BEGIN
 
       -- insert stimulus
 		
-		rst <= '1';
+		i_rst <= '1';
       wait for 3 * i_clk_period;
       
       if o_data = '1' then
          report "ERROR: RST = 1";  --Informa que la señal se estabilizo en rst = 1
 		else
          report "PASS: RST = 1";
-      end if
+      end if;
       ---------------------------------------
-      rst <= '0';
+      i_rst <= '0';
 		wait for 2* i_clk_period;
          
       if o_data = '1' then
          report "ERROR: RST = 0; 2*CLK_PERIOD";  --Informa que la señal se estabilizo en 2*clk_period con rst = 0
 		else
          report "PASS: RST = 0; 2*CLK_PERIOD";
-      end if
+      end if;
       -----------------------------------
 		i_data <= '1';
 		wait for 0.5 * i_clk_period;
@@ -125,7 +123,7 @@ BEGIN
          report "ERROR: I_DATA = 1; 0.5*CLK_PERIOD";  --Informa que la señal se estabilizo en 0.5*clk_period con i_data = 1
 		else
          report "PASS: I_DATA = 1; 0.5*CLK_PERIOD";
-      end if
+      end if;
       ----------------------------------
 		i_data <= '0';
 		wait for 1 * i_clk_period;
@@ -134,7 +132,7 @@ BEGIN
          report "ERROR: I_DATA = 0; 1*CLK_PERIOD";  --Informa que la señal se estabilizo en 1*clk_period con i_data = 0
 		else
          report "PASS: I_DATA = 0; 1*CLK_PERIOD";
-      end if
+      end if;
       -----------------------------------   
 		i_data <= '1';
 		wait for 1.5* i_clk_period;
