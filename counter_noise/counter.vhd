@@ -58,10 +58,10 @@ begin
             if (count = i_data) then
              end_count <= '1';
              count <= (others => '0');
-            end if
+            end if;
             if (i_en = '1') then
                 count <= count + 1;
-            end if 
+            end if; 
          end if;
       end process;
             
