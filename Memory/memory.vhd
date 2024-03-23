@@ -39,7 +39,7 @@ end memory;
 
 architecture Behavioral of memory is
 
-    type ram_type is array (31 downto 0) of std_logic_vector (7 downto 0);
+    type ram_type is array ((2**8)-1 downto 0) of std_logic_vector (31 downto 0);
     signal RAM: ram_type;
 	 signal d_out : STD_LOGIC_VECTOR (31 downto 0) := (others => '0');
 
@@ -49,9 +49,11 @@ begin
 begin
    if (clk'event and clk = '1') then
       if ( en = '1' and wr = '1') then
-         RAM(conv_integer(addr) downto 0) <= din;
+         RAM(conv_integer(addr)) <= din;
       end if;
-      d_out <= RAM(conv_integer(addr) downto 0);
+      if (rd = '1') then
+         d_out <= RAM(conv_integer(addr));
+      end if;
    end if;
 end process;
 
