@@ -25,7 +25,7 @@ begin
         if (rst = '1') then
             q_bus <= rest;
         elsif (clk'event and clk = '1') then
-            q_bus <= d_bus;
+            q_bus <= d_bus; --q_bus señal intermedia
         end if;
     end process;
 
