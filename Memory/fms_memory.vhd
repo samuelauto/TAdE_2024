@@ -16,7 +16,7 @@ end fms_memory ;
 architecture arch of fms_memory is
 
     type state is (rest,wr,rd); --Señales internas
-    signal d_bus,q_bus: state := rest;
+    signal d_bus,q_bus: state := rest; --Estableciendolo en tercer estado
 
 begin
 
